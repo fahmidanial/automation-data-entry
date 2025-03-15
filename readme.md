@@ -25,15 +25,17 @@
 based on this pseudo write for me a python code to make this as simple autoamtion system for proof of concept by using only 5 dummy data. below i provide raw dummy data for senarai pembekal and senarai aset spa (pass by claude ai)  
 
 - senarai pembekal (pass)  
-| b       | a                              		  |
+```
+| b       | a                               		  |
 |---------|---------------------------------------|
 | UP00293 | BRILLIANT ENTERPRISE                  |
 | UP00294 | BROADRAY ELECTRONIC & ELECTRIC TRADIN |
 | UP00295 | BRIYANG ENTERPRISE                    |
 | UP00296 | BSO TECHNOLOGIES SDN BHD              |
 | UP00297 | BSC ELEVATORS SDN BHD                 |
-
+```
 - senarai aset spa (pass)  
+```
 | d       | c                       |
 |---------|-------------------------|
 |         |                         |
@@ -41,3 +43,4 @@ based on this pseudo write for me a python code to make this as simple autoamtio
 |         | BRIYANG ENTERPRISE      |
 |         | BSO TECHNOLOGIES SDN BHD|
 |         | BSC ELEVATORS SDN BHD   |
+```
