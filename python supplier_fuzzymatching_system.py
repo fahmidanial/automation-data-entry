@@ -63,18 +63,71 @@ def match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=95):
 
 def read_supplier_list(file_path):
     """
-    Read supplier list from text file and return as DataFrame
+    Read supplier list from text file and return as DataFrame with debugging output.
     """
     suppliers = []
-    with open(file_path, 'r', encoding='utf-8') as file:
-        next(file)  # Skip header
-        for line in file:
-            parts = line.strip().split('\t', 1)
-            if len(parts) == 2:
-                supplier_id, supplier_name = parts
-                suppliers.append([supplier_id, supplier_name])
+    total_lines = 0
+    skipped_lines = 0
     
-    return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            next(file)  # Skip header
+            for line_number, line in enumerate(file, start=2):  # Start counting from line 2
+                total_lines += 1
+                line = line.strip()
+                if not line:  # Skip empty lines
+                    skipped_lines += 1
+                    print(f"Line {line_number}: Skipped (empty line)")
+                    continue
+                
+                parts = line.split('\t', 1)  # Split on first tab only
+                if len(parts) == 2:
+                    supplier_id, supplier_name = parts
+                    suppliers.append([supplier_id, supplier_name])
+                else:
+                    skipped_lines += 1
+                    print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
+        
+        print(f"Total lines processed: {total_lines}")
+        print(f"Valid suppliers loaded: {len(suppliers)}")
+        print(f"Lines skipped: {skipped_lines}")
+        
+        if not suppliers:
+            raise ValueError("No valid supplier data found in file")
+        
+        return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
+    
+    except UnicodeDecodeError as e:
+        print(f"Encoding error: {e}. Trying 'latin-1' encoding instead...")
+        suppliers = []
+        total_lines = 0
+        skipped_lines = 0
+        with open(file_path, 'r', encoding='latin-1') as file:
+            next(file)  # Skip header
+            for line_number, line in enumerate(file, start=2):
+                total_lines += 1
+                line = line.strip()
+                if not line:
+                    skipped_lines += 1
+                    print(f"Line {line_number}: Skipped (empty line)")
+                    continue
+                
+                parts = line.split('\t', 1)
+                if len(parts) == 2:
+                    supplier_id, supplier_name = parts
+                    suppliers.append([supplier_id, supplier_name])
+                else:
+                    skipped_lines += 1
+                    print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
+        
+        print(f"Total lines processed: {total_lines}")
+        print(f"Valid suppliers loaded: {len(suppliers)}")
+        print(f"Lines skipped: {skipped_lines}")
+        
+        if not suppliers:
+            raise ValueError("No valid supplier data found in file with latin-1 encoding")
+        
+        return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
 
 def main():
     supplier_file = "C:\\Users\\USER\\Desktop\\SW\\Automation\\automation-data-entry\\Original Senarai Pembekal.txt"
