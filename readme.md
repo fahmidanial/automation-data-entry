@@ -1,4 +1,5 @@
-## ?
+# ?
+
 - to read 161 page pdf for specific column without any miss reading  
   test: testing for 5 dummy data (pass)  
   test: convert 161 page pdf to txt for column id_pembekal and nama_pembekal (pass) - medium use chatgpt(failed for first QnA), claude ai(failed without QnA because limit), grok(pass for first QnA)  
@@ -12,13 +13,15 @@
 - c = pembekal (senarai aset spa)  
 - d = kod_pembekal (senarai aset spa)  
 
-### requirements
+## requirements
+
 - check 'a' must equal to 'c' (pass)  
 - if check is same then take the 'a' value and search for all value that have 'a' in 'c' (pass)  
 - if value exist take 'b' value that have 'a' == 'c' (pass)  
 - write all 'b' value in 'd' based on all value that exist after search (pass)  
 
 ### issue
+
 - some pembekal have two different id_pembekal?  
 - 2Y COMMUNICATIONS ENGINEERING
 - SKYWORLD CLASSIC SKY WORLD CLASSIC
@@ -98,9 +101,14 @@ OTWO JJ SOLUTION
 
 based on this pseudo write for me a python code to make this as simple autoamtion system for proof of concept by using only 5 dummy data. below i provide raw dummy data for senarai pembekal and senarai aset spa (pass by claude ai)  
 
+<<<<<<< HEAD
 - senarai pembekal (failed)  
+=======
+- senarai pembekal (pass)  
+
+>>>>>>> be8c92db9ead9522ef0ef51327a625a1f9571d74
 ```
-| b       | a                               		  |
+| b       | a                                     |
 |---------|---------------------------------------|
 | UP02164 | 2Y COMMUNICATIONS ENGINEERING         |
 | UP01888 | SKY WORLD CLASSIC                     |
@@ -125,7 +133,9 @@ based on this pseudo write for me a python code to make this as simple autoamtio
 | UP00296 | BSO TECHNOLOGIES SDN BHD              |
 | UP00297 | BSC ELEVATORS SDN BHD                 |
 ```
+
 - senarai aset spa (pass)  
+
 ```
 | d       | c                       |
 |---------|-------------------------|
@@ -133,4 +143,9 @@ based on this pseudo write for me a python code to make this as simple autoamtio
 |         |                         |
 |         | BRIYANG ENTERPRISE      |
 |         | BSO TECHNOLOGIES SDN BHD|
+<<<<<<< HEAD
 |         | BSC ELEVATORS SDN BHD   |
+=======
+|         | BSC ELEVATORS SDN BHD   |
+```
+>>>>>>> be8c92db9ead9522ef0ef51327a625a1f9571d74
