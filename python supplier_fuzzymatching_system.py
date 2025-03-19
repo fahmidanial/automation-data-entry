@@ -61,9 +61,17 @@ def match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=95):
     updated_aset_spa['kod_pembekal'] = updated_aset_spa['pembekal'].apply(get_supplier_id)
     return updated_aset_spa
 
+import pandas as pd
+
 def read_supplier_list(file_path):
     """
-    Read supplier list from text file and return as DataFrame with debugging output.
+    Read supplier list from text file and return as DataFrame, splitting on the first space.
+    
+    Args:
+        file_path (str): Path to the supplier list text file.
+    
+    Returns:
+        pd.DataFrame: DataFrame with columns 'ID Pembekal' and 'Nama Pembekal'.
     """
     suppliers = []
     total_lines = 0
@@ -80,7 +88,8 @@ def read_supplier_list(file_path):
                     print(f"Line {line_number}: Skipped (empty line)")
                     continue
                 
-                parts = line.split('\t', 1)  # Split on first tab only
+                # Split on the first space only
+                parts = line.split(' ', 1)
                 if len(parts) == 2:
                     supplier_id, supplier_name = parts
                     suppliers.append([supplier_id, supplier_name])
@@ -102,32 +111,53 @@ def read_supplier_list(file_path):
         suppliers = []
         total_lines = 0
         skipped_lines = 0
-        with open(file_path, 'r', encoding='latin-1') as file:
-            next(file)  # Skip header
-            for line_number, line in enumerate(file, start=2):
-                total_lines += 1
-                line = line.strip()
-                if not line:
-                    skipped_lines += 1
-                    print(f"Line {line_number}: Skipped (empty line)")
-                    continue
-                
-                parts = line.split('\t', 1)
-                if len(parts) == 2:
-                    supplier_id, supplier_name = parts
-                    suppliers.append([supplier_id, supplier_name])
-                else:
-                    skipped_lines += 1
-                    print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
+        try:
+            with open(file_path, 'r', encoding='latin-1') as file:
+                next(file)  # Skip header
+                for line_number, line in enumerate(file, start=2):
+                    total_lines += 1
+                    line = line.strip()
+                    if not line:
+                        skipped_lines += 1
+                        print(f"Line {line_number}: Skipped (empty line)")
+                        continue
+                    
+                    # Split on the first space only
+                    parts = line.split(' ', 1)
+                    if len(parts) == 2:
+                        supplier_id, supplier_name = parts
+                        suppliers.append([supplier_id, supplier_name])
+                    else:
+                        skipped_lines += 1
+                        print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
+            
+            print(f"Total lines processed: {total_lines}")
+            print(f"Valid suppliers loaded: {len(suppliers)}")
+            print(f"Lines skipped: {skipped_lines}")
+            
+            if not suppliers:
+                raise ValueError("No valid supplier data found in file")
+            
+            return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
         
-        print(f"Total lines processed: {total_lines}")
-        print(f"Valid suppliers loaded: {len(suppliers)}")
-        print(f"Lines skipped: {skipped_lines}")
-        
-        if not suppliers:
-            raise ValueError("No valid supplier data found in file with latin-1 encoding")
-        
-        return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
+        except Exception as e:
+            print(f"An error occurred with 'latin-1' encoding: {e}")
+            return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
+    
+    except FileNotFoundError:
+        print(f"Error: File '{file_path}' not found.")
+        return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
+
+# Example usage
+if __name__ == "__main__":
+    file_path = 'Original Senarai Pembekal.txt'  # Replace with your actual file path
+    supplier_df = read_supplier_list(file_path)
+    print("\nSupplier DataFrame:")
+    print(supplier_df)
 
 def main():
     supplier_file = "C:\\Users\\USER\\Desktop\\SW\\Automation\\automation-data-entry\\Original Senarai Pembekal.txt"
