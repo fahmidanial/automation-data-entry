@@ -9,8 +9,8 @@ def match_suppliers(pembekal_data, aset_spa_data):
     updated_aset_spa = aset_spa_data.copy()
     
     # Normalize supplier names: remove spaces, convert to uppercase
-    pembekal_data['Nama Pembekal Normalized'] = pembekal_data['Nama Pembekal'].str.upper().str.replace(" ", "")
     supplier_map = pembekal_data.groupby('Nama Pembekal Normalized')['ID Pembekal'].apply(lambda x: '/'.join(x)).to_dict()
+    pembekal_data['Nama Pembekal Normalized'] = pembekal_data['Nama Pembekal'].str.upper().str.replace(" ", "")
     
     def get_supplier_id(supplier_name):
         if pd.isna(supplier_name) or supplier_name.strip() == '':
