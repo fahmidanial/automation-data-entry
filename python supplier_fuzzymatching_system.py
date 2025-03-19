@@ -26,9 +26,9 @@ def match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=90):
     pembekal_data['Nama Pembekal Normalized'] = pembekal_data['Nama Pembekal'].str.upper().str.replace(" ", "")
     supplier_map = pembekal_data.groupby('Nama Pembekal Normalized')['ID Pembekal'].apply(lambda x: '/'.join(x)).to_dict()
     
-    # Create a cleaned list for fuzzy matching
+    # Create a cleaned list for fuzzy matching, filtering out empty strings
     pembekal_data['Nama Pembekal Cleaned'] = pembekal_data['Nama Pembekal'].apply(clean_name)
-    supplier_names_cleaned = pembekal_data['Nama Pembekal Cleaned'].tolist()
+    supplier_names_cleaned = [name for name in pembekal_data['Nama Pembekal Cleaned'].tolist() if name]  # Exclude empty
     supplier_ids = pembekal_data['ID Pembekal'].tolist()
     
     def get_supplier_id(supplier_name):
@@ -43,12 +43,23 @@ def match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=90):
         
         # Step 2: Fuzzy match if exact match fails
         cleaned_name = clean_name(supplier_name)
-        if cleaned_name:
-            best_match, score, index = process.extractOne(cleaned_name, supplier_names_cleaned, scorer=fuzz.token_set_ratio)
-            if score >= similarity_threshold:
-                return supplier_ids[index]
+        if cleaned_name and supplier_names_cleaned:  # Ensure both query and choices are valid
+            result = process.extractOne(cleaned_name, supplier_names_cleaned, scorer=fuzz.token_set_ratio)
+            if result:  # Check if result is not None
+                # Handle varying return formats
+                if len(result) == 3:  # (match, score, index)
+                    best_match, score, index = result
+                elif len(result) == 2:  # (match, score) - older versions
+                    best_match, score = result
+                    # Map back to index using the original list
+                    index = supplier_names_cleaned.index(best_match)
+                else:
+                    return ''  # Unexpected format, skip
+                
+                if score >= similarity_threshold:
+                    return supplier_ids[index]
         
-        return ''  # Return empty string if no match found
+        return ''  # Return empty string if no match found or fuzzy match fails
 
     updated_aset_spa['kod_pembekal'] = updated_aset_spa['pembekal'].apply(get_supplier_id)
     return updated_aset_spa
