@@ -37,7 +37,7 @@ SDN. BHD.
 CENTRE
 - F H SALES AND SERVICE F H Sales And Services
 - D'URANIUS DURANIUS ADVERTISING
-- F H Sales And Services 
+- F H Sales And Services
 - FOTO SHANGRI-LA SDN BHD FOTO SHANGRI-LA (M)
 SDN.BHD. FOTO SHANGRI-LA (M) SDN
 BHD
@@ -85,47 +85,35 @@ CV. MEDIA PUTRA
 COMPUTINDO
 - O TWO JJ SOLUTION
 OTWO JJ SOLUTION
-
-
-
-
-
-
-
-
-
-
-
-
 - human error? - test upload on git to track changes  
 
 based on this pseudo write for me a python code to make this as simple autoamtion system for proof of concept by using only 5 dummy data. below i provide raw dummy data for senarai pembekal and senarai aset spa (pass by claude ai)  
 
-<<<<<<< HEAD
 - senarai pembekal (failed)  
-=======
-- senarai pembekal (pass)  
 
->>>>>>> be8c92db9ead9522ef0ef51327a625a1f9571d74
 ```
 | b       | a                                     |
 |---------|---------------------------------------|
 | UP02164 | 2Y COMMUNICATIONS ENGINEERING         |
 | UP01888 | SKY WORLD CLASSIC                     |
 ```
+
 - senarai aset spa (failed)  
-```
-| d       | c                       |
-|---------|-------------------------|
-|         |                         |
-|         | 2Y COMMUNICATIONS ENGINEERING                       |
-|         | SKYWORLD CLASSIC        |
-|         |                         |
-|         |                         |
-```
 
 ```
-| b       | a                               		  |
+| d       | c                            |
+|---------|------------------------------|
+|         |                              |
+|         | 2Y COMMUNICATIONS ENGINEERING|
+|         | SKYWORLD CLASSIC             |
+|         |                              |
+|         |                              |
+```
+
+- senarai pembekal (pass)
+
+```
+| b       | a                                     |
 |---------|---------------------------------------|
 | UP02164 | 2Y COMMUNICATIONS ENGINEERING         |
 | UP00294 | BROADRAY ELECTRONIC & ELECTRIC TRADIN |
@@ -143,9 +131,5 @@ based on this pseudo write for me a python code to make this as simple autoamtio
 |         |                         |
 |         | BRIYANG ENTERPRISE      |
 |         | BSO TECHNOLOGIES SDN BHD|
-<<<<<<< HEAD
-|         | BSC ELEVATORS SDN BHD   |
-=======
 |         | BSC ELEVATORS SDN BHD   |
 ```
->>>>>>> be8c92db9ead9522ef0ef51327a625a1f9571d74
