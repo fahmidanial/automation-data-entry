@@ -4,20 +4,23 @@ import os
 def match_suppliers(pembekal_data, aset_spa_data):
     """
     Match supplier names between two datasets and update the kod_pembekal field.
-    If a supplier has multiple IDs, concatenate them with '/'.
+    Handles minor spacing differences and case mismatches.
     """
     updated_aset_spa = aset_spa_data.copy()
     
-    # Create a mapping where supplier names map to concatenated IDs
-    supplier_map = pembekal_data.groupby('Nama Pembekal')['ID Pembekal'].apply(lambda x: '/'.join(x)).to_dict()
+    # Normalize supplier names: remove spaces, convert to uppercase
+    pembekal_data['Nama Pembekal Normalized'] = pembekal_data['Nama Pembekal'].str.upper().str.replace(" ", "")
+    supplier_map = pembekal_data.groupby('Nama Pembekal Normalized')['ID Pembekal'].apply(lambda x: '/'.join(x)).to_dict()
     
     def get_supplier_id(supplier_name):
-        if pd.isna(supplier_name) or supplier_name == '':
+        if pd.isna(supplier_name) or supplier_name.strip() == '':
             return ''
-        return supplier_map.get(supplier_name, '')
-    
+        normalized_name = supplier_name.upper().replace(" ", "")
+        return supplier_map.get(normalized_name, '')
+
     updated_aset_spa['kod_pembekal'] = updated_aset_spa['pembekal'].apply(get_supplier_id)
     return updated_aset_spa
+
 
 def read_supplier_list(file_path):
     """
@@ -38,8 +41,8 @@ def create_sample_aset_spa_data():
     """Create a sample dataset for testing when the Excel file is not available"""
     return pd.DataFrame({
         'pembekal': [
-            'ABLENET SYSTEMS SDN BHD', 
-            'MALAYSIA AIRLINES BERHAD', 
+            '2Y COMMUNICATIONS ENGINEERING', 
+            'SKYWORLD CLASSIC', 
             'ABX EXPRESS (KUCHING) SDN BHD',
             'ACER SALES & SERVICES SDN BHD',
             'ACTION POINT TECHNOLOGY'
@@ -56,8 +59,8 @@ def main():
     except Exception as e:
         print(f"Error reading supplier file: {e}")
         pembekal_data = pd.DataFrame({
-            'ID Pembekal': ['UP00001', 'UP00002', 'UP00003', 'UP00002'],
-            'Nama Pembekal': ['ABLENET SYSTEMS SDN BHD', 'ABU SEMAN MAT AIL', 'ABX EXPRESS (KUCHING) SDN BHD', 'ABU SEMAN MAT AIL']
+            'ID Pembekal': ['UP02164', 'UP01888', 'UP00003', 'UP00002'],
+            'Nama Pembekal': ['2Y COMMUNICATIONS ENGINEERING', 'SKY WORLD CLASSIC', 'ABX EXPRESS (KUCHING) SDN BHD', 'ABU SEMAN MAT AIL']
         })
     
     excel_file = "C:\\Users\\Swizard\\Desktop\\Automation\\Original Senarai Aset SPA.xlsx"
