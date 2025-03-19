@@ -26,9 +26,25 @@
 
 - 2Y COMMUNICATIONS ENGINEERING | 2Y COMMUNICATIONS ENGINEERING ?
 
+## pass
+
 - SKYWORLD CLASSIC (senarai aset spa) | SKY WORLD CLASSIC (senarai pembekal) -> avoid this issue by checking SPACE
 
-- CENTERPOINT SERRVICES SDN BHD (senarai aset spa) | CENTERPOINT SERRVICES SDN BHD (senarai pembekal) -> avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
+- FUTURE MAKERS SDN BHD | FUTUREMAKERS SDN BHD
+
+- High Definition Technology Sdn Bhd | HIGH DEFINITION TECHNOLOGY SDN BHD
+
+- KEJURUTERAAN JAYA TECH SDN. BHD. | KEJURUTERAAN JAYA TECH SDN BHD
+
+- KUMPULAN PROTECTION SDN. BHD. | KUMPULAN PROTECTION SDN.BHD.
+
+- MA ASAS JAYA ENTERPRISE | M.A. ASAS JAYA ENTERPRISE
+
+- O TWO JJ SOLUTION | OTWO JJ SOLUTION
+
+## not pass
+
+- CENTERPOINT SERRVICES SDN BHD (senarai aset spa) | CENTREPOINT SERVICES SDN BHD (senarai pembekal) -> avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
 
 - CG COMPUTER SDN BHD (senarai aset spa) | CG COMPUTERS SDN. BHD. (senarai pembekal)-> avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
 
@@ -50,17 +66,11 @@
 
 - FURNITURE ART | FURNITURE ARTS (M) SDN BHD
 
-- FUTURE MAKERS SDN BHD | FUTUREMAKERS SDN BHD
-
 - GABUNGAN MANTAP SDN BHD | GABUNGAN MANTAP SDN. BHD.
 
 - GEO BILD (M) SDN BHD | GEOBILD (M) SDN BHD
 
-- GLOBAL ELITE VENTURES SDN BHD | GLOBAL ELITE VENTURE SDN BHD
-
 - HERITAGE FORTE SDN. BHD. | HERITAGE FORTE SDN BHD
-
-- High Definition Technology Sdn Bhd | HIGH DEFINITION TECHNOLOGY SDN BHD
 
 - HYDRAMAS (M) SDN BHD | HYDRAMAS M) SDN BHD
 
@@ -80,25 +90,19 @@
 
 - JATICOM SND BHD | JATICOM SDN BHD
 
-- JRC-PRO TECHNOLOGY SDN BHD | JRC-PRO TECHNOLOGY S/B
-
 - KAMITERRA | Kamiterra Resources
 
 - KEE HING ELEKTRIK SDN BHD | KEE HING ELEKTRIK SDN BERHAD
 
-- KEJURUTERAAN JAYA TECH SDN. BHD. | KEJURUTERAAN JAYA TECH SDN BHD
-
 - KELISA TECHNOLOGY SDN BHD | KELISA TEKNOLOGY SDN BHD
 
-- KUMPULAN PROTECTION SDN. BHD. | KUMPULAN PROTECTION SDN.BHD.
+- MEDIA PUTRA COMPUTINDO | CV. MEDIA PUTRA COMPUTINDO -> not pass because unknown value "UP00435CV."
 
-- MA ASAS JAYA ENTERPRISE | M.A. ASAS JAYA ENTERPRISE
+## half
 
-- MEDIA PUTRA COMPUTINDO | CV. MEDIA PUTRA COMPUTINDO
+- GLOBAL ELITE VENTURES SDN BHD | GLOBAL ELITE VENTURE SDN BHD -> ada dua kod pembekal untuk satu nama pembekal yg sama satu pass untuk yg UP02553 tapi untuk UP00735 not pass
 
-- O TWO JJ SOLUTION | OTWO JJ SOLUTION
-
-- human error? - test upload on git to track changes  
+- JRC-PRO TECHNOLOGY SDN BHD | JRC-PRO TECHNOLOGY S/B -> ada dua kod pembekal tapi dgn dua nama pembekal yang berbeza yg sepatutnya sama sahaja
 
 ### solution
 
