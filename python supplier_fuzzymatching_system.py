@@ -61,113 +61,75 @@ def match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=95):
     updated_aset_spa['kod_pembekal'] = updated_aset_spa['pembekal'].apply(get_supplier_id)
     return updated_aset_spa
 
-import pandas as pd
-
 def read_supplier_list(file_path):
     """
-    Read supplier list from text file and return as DataFrame, splitting on the first space.
+    Read supplier list from an Excel file and return as DataFrame.
     
     Args:
-        file_path (str): Path to the supplier list text file.
+        file_path (str): Path to the supplier list Excel file.
     
     Returns:
         pd.DataFrame: DataFrame with columns 'ID Pembekal' and 'Nama Pembekal'.
     """
-    suppliers = []
-    total_lines = 0
-    skipped_lines = 0
-    
     try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            next(file)  # Skip header
-            for line_number, line in enumerate(file, start=2):  # Start counting from line 2
-                total_lines += 1
-                line = line.strip()
-                if not line:  # Skip empty lines
-                    skipped_lines += 1
-                    print(f"Line {line_number}: Skipped (empty line)")
-                    continue
+        # Read the Excel file
+        df = pd.read_excel(file_path)
+        print(f"Excel file loaded successfully with {len(df)} rows.")
+        
+        # Print column names for debugging
+        print("Columns found in supplier file:", df.columns.tolist())
+        
+        # Define expected column names (adjust these based on your file)
+        expected_id_col = 'ID Pembekal'  # Change this to match your actual ID column name (lowercase)
+        expected_name_col = 'Nama Pembekal'  # Change this to match your actual name column name (lowercase)
+        
+        # Check for expected columns (case-insensitive)
+        columns = [col.lower() for col in df.columns]
+        if expected_id_col not in columns or expected_name_col not in columns:
+            # Try to find similar column names
+            actual_id_col = next((col for col in df.columns if 'id' in col.lower() and 'pembekal' in col.lower()), None)
+            actual_name_col = next((col for col in df.columns if 'nama' in col.lower() and 'pembekal' in col.lower()), None)
+            
+            if not actual_id_col or not actual_name_col:
+                # If still not found, try broader matches or log all columns
+                actual_id_col = next((col for col in df.columns if 'id' in col.lower() or 'code' in col.lower()), None)
+                actual_name_col = next((col for col in df.columns if 'nama' in col.lower() or 'name' in col.lower()), None)
                 
-                # Split on the first space only
-                parts = line.split(' ', 1)
-                if len(parts) == 2:
-                    supplier_id, supplier_name = parts
-                    suppliers.append([supplier_id, supplier_name])
-                else:
-                    skipped_lines += 1
-                    print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
-        
-        print(f"Total lines processed: {total_lines}")
-        print(f"Valid suppliers loaded: {len(suppliers)}")
-        print(f"Lines skipped: {skipped_lines}")
-        
-        if not suppliers:
-            raise ValueError("No valid supplier data found in file")
-        
-        return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
-    
-    except UnicodeDecodeError as e:
-        print(f"Encoding error: {e}. Trying 'latin-1' encoding instead...")
-        suppliers = []
-        total_lines = 0
-        skipped_lines = 0
-        try:
-            with open(file_path, 'r', encoding='latin-1') as file:
-                next(file)  # Skip header
-                for line_number, line in enumerate(file, start=2):
-                    total_lines += 1
-                    line = line.strip()
-                    if not line:
-                        skipped_lines += 1
-                        print(f"Line {line_number}: Skipped (empty line)")
-                        continue
-                    
-                    # Split on the first space only
-                    parts = line.split(' ', 1)
-                    if len(parts) == 2:
-                        supplier_id, supplier_name = parts
-                        suppliers.append([supplier_id, supplier_name])
-                    else:
-                        skipped_lines += 1
-                        print(f"Line {line_number}: Skipped (invalid format) - Content: '{line}'")
+                if not actual_id_col or not actual_name_col:
+                    raise ValueError(f"Could not find columns resembling 'ID Pembekal' and 'Nama Pembekal'. Available columns: {df.columns.tolist()}")
             
-            print(f"Total lines processed: {total_lines}")
-            print(f"Valid suppliers loaded: {len(suppliers)}")
-            print(f"Lines skipped: {skipped_lines}")
-            
-            if not suppliers:
-                raise ValueError("No valid supplier data found in file")
-            
-            return pd.DataFrame(suppliers, columns=['ID Pembekal', 'Nama Pembekal'])
+            # Rename columns to standard names
+            df = df.rename(columns={actual_id_col: 'ID Pembekal', actual_name_col: 'Nama Pembekal'})
+        else:
+            # Standardize column names if they exist with different casing
+            df.columns = [col if col.lower() != expected_id_col else 'ID Pembekal' for col in df.columns]
+            df.columns = [col if col.lower() != expected_name_col else 'Nama Pembekal' for col in df.columns]
         
-        except Exception as e:
-            print(f"An error occurred with 'latin-1' encoding: {e}")
-            return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
+        # Filter to only the required columns and drop rows with missing values in either column
+        df = df[['ID Pembekal', 'Nama Pembekal']].dropna()
+        
+        print(f"Valid suppliers after cleaning: {len(df)}")
+        return df
     
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
         return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
     
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred while reading the Excel file: {e}")
         return pd.DataFrame(columns=['ID Pembekal', 'Nama Pembekal'])
 
-# Example usage
-if __name__ == "__main__":
-    file_path = 'Original Senarai Pembekal.txt'  # Replace with your actual file path
-    supplier_df = read_supplier_list(file_path)
-    print("\nSupplier DataFrame:")
-    print(supplier_df)
-
 def main():
-    supplier_file = "C:\\Users\\USER\\Desktop\\SW\\Automation\\automation-data-entry\\Original Senarai Pembekal.txt"
+    supplier_file = "C:\\Users\\USER\\Desktop\\SW\\Automation\\automation-data-entry\\Original Senarai Pembekal.xlsx"
     
     try:
         pembekal_data = read_supplier_list(supplier_file)
-        print(f"Successfully loaded {len(pembekal_data)} suppliers from text file")
+        if pembekal_data.empty:
+            raise ValueError("No supplier data loaded.")
+        print(f"Successfully loaded {len(pembekal_data)} suppliers from Excel file")
     except Exception as e:
         print(f"Error reading supplier file: {e}")
-        # Fallback to sample data if file not found
+        # Fallback to sample data if file not found or invalid
         pembekal_data = pd.DataFrame({
             'ID Pembekal': ['UP00879', 'UP02164', 'UP02332', 'UP00187', 'UP00006', 'UP00004', 'UP00001', 'UP00009', 'UP00010', 'UP00018'],
             'Nama Pembekal': [
@@ -183,6 +145,7 @@ def main():
                 'ACS SOLUTION SDN BHD'
             ]
         })
+        print("Using fallback sample data.")
     
     excel_file = "C:\\Users\\USER\\Desktop\\SW\\Automation\\automation-data-entry\\Original Senarai Aset SPA.xlsx"
     
@@ -202,8 +165,12 @@ def main():
             
     except Exception as e:
         print(f"Error reading Excel file: {e}")
-        # Use the document data as a fallback for testing
-        aset_spa_data = pd.read_csv("path_to_your_document.txt", sep='\t')  # Replace with actual path if testing
+        # Fallback to sample data for testing
+        aset_spa_data = pd.DataFrame({
+            'pembekal': ['1MEDIA IPTV SDN BHD', 'A&T TRADE & SERVICES', 'Unknown Supplier', 'ACER SALES & SERVICES SDN BHD'],
+            'kod_pembekal': ['', '', '', '']
+        })
+        print("Using fallback sample data for aset_spa_data.")
     
     updated_aset_spa = match_suppliers(pembekal_data, aset_spa_data, similarity_threshold=95)
     
