@@ -42,8 +42,6 @@
 
 - O TWO JJ SOLUTION | OTWO JJ SOLUTION
 
-## not pass
-
 - CENTERPOINT SERRVICES SDN BHD (senarai aset spa) | CENTREPOINT SERVICES SDN BHD (senarai pembekal) -> avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
 
 - CG COMPUTER SDN BHD (senarai aset spa) | CG COMPUTERS SDN. BHD. (senarai pembekal)-> avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
@@ -52,17 +50,9 @@
 
 - DEOMASTER HYGIENE SDN BHD (senarai aset spa) | DEOMASTER HYGIENE SDN. BHD. (senarai pembekal) ->avoid this issue by checking how much percentage letter same for both without changing the meaning for the full word
 
-- DG SOLUTION ENTERPRISE | DG SOLUTION
-
-- DISPLAY ASIA SDN BHD | DISPLAY ASIA SDN. BHD.
-
-- DNA COMPUTER SDN BHD | DNA COMPUTER SERVICE CENTRE
-
 - F H SALES AND SERVICE | F H Sales And Services
 
 - D'URANIUS | DURANIUS ADVERTISING
-
-- FOTO SHANGRI-LA SDN BHD | FOTO SHANGRI-LA (M) SDN.BHD.
 
 - FURNITURE ART | FURNITURE ARTS (M) SDN BHD
 
@@ -86,6 +76,14 @@
 
 - JARDINE ONESOLUTION (2001) SDN BHD | JARDINE ONESOLUTION(2001) SDN BHD
 
+## not pass
+
+- DG SOLUTION ENTERPRISE | DG SOLUTION
+
+- DISPLAY ASIA SDN BHD | DISPLAY ASIA SDN. BHD.
+
+- DNA COMPUTER SDN BHD | DNA COMPUTER SERVICE CENTRE
+
 - JASAKONTROL AUTOMATION SOLUTION | JASA KONTROL SDN BHD
 
 - JATICOM SND BHD | JATICOM SDN BHD
@@ -103,6 +101,8 @@
 - GLOBAL ELITE VENTURES SDN BHD | GLOBAL ELITE VENTURE SDN BHD -> ada dua kod pembekal untuk satu nama pembekal yg sama satu pass untuk yg UP02553 tapi untuk UP00735 not pass
 
 - JRC-PRO TECHNOLOGY SDN BHD | JRC-PRO TECHNOLOGY S/B -> ada dua kod pembekal tapi dgn dua nama pembekal yang berbeza yg sepatutnya sama sahaja
+
+- FOTO SHANGRI-LA SDN BHD | FOTO SHANGRI-LA (M) SDN.BHD.
 
 ### solution
 
